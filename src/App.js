@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component,Fragment } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {connect} from "react-redux";
+
+import HeaderNav from "components/headerNav"
+import Content from 'components/content'
+import LoginMod from "container/LoginMod"
+import LoadingToggle from 'container/LoadingToggle';
+
+import {testLoginAction} from "./redux/actions/loginAction"//是否登录
+import "./App.css"
+ class App extends Component {
+   
+    componentDidMount(){
+       
+        this.props.isloginAction();//是否登录
+
+    }
+  
+   
+    render() {
+        console.log("App render",this.props);
+        return (
+            <Fragment>
+                <HeaderNav/>
+                <Content/>
+                {/* <div style={{display:this.state.isShowLoginMod?'block':"none"}} className="login-reg">
+                  <LoginMod closeLoginReg={this.closeLoginAndReg}/>
+                </div> */}
+                <LoginMod />
+                <LoadingToggle/>
+               
+            </Fragment>
+        )
+    }
 }
 
-export default App;
+
+export default connect(state=>({isLogin:state.userReducer.isLogin}),{
+    isloginAction:testLoginAction
+})(App)

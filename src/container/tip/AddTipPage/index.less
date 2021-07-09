@@ -1,0 +1,135 @@
+@import "~assets/less/mixin.less";
+
+.add-tip-wrapper{
+    padding:1em 0.6em;
+}
+
+.top-tip{
+    .back-tiplists{
+        .clearfix;
+        width:660px;
+        a{
+            .left;
+        }
+    }
+}
+
+.send-wrapper{
+    background-color: #fbfbfb;
+    padding:2em 1em;
+    margin-top:0.6em;
+    div.tip-type-choose{
+        padding:1em 0;
+        color:#888;
+        select.select-tip-type{
+            margin-left:0.5em;
+            outline: none;
+            border:1px solid #eaeaea;
+            border-radius: 6px;
+            &:hover{
+                color:yellowgreen;
+                border-color:yellowgreen;
+            }
+        }
+    }
+    .title-box {
+        margin-bottom:1em;
+        #talkTitleField{
+            width:500px;
+            border:1px solid #eee;
+            outline: none;
+            padding:0.4em;
+            &:focus{
+                border-color:cornflowerblue;
+               
+            }
+            &::placeholder{
+                color:rgb(216, 216, 216);
+                font-size:0.6em;
+            }
+        }
+    }
+    .content-box{
+        #talkContentField{
+            width:500px;
+            border:1px solid #eee;
+            outline: none;
+            padding:0.4em;
+            height:200px;
+            &:focus{
+                border-color:cornflowerblue;
+               
+            }
+            
+            &::placeholder{
+                color:rgb(216, 216, 216);
+                font-size:0.6em;
+                display: block;
+                width:500px;
+                text-align: center;
+               line-height: 200px;
+            }
+        }
+    }
+
+    .extra-upload{
+        margin-top:0.4em;
+        label.addingFileBtn{
+            padding:0.2em 0.6em;
+            background-color:hsl(94,40%,91%);
+            border-radius: 4px;
+            cursor:pointer;
+            &:hover{
+                background-color:hsl(34,80%,91%);
+            }
+        }
+    }
+
+    //选择的图片预览
+    div.view-img{
+        width:480px;
+        padding:1em;
+        box-shadow: 1px 1px 2px 2px rgb(138, 138, 138);
+        display: flex;
+        flex-wrap: wrap;
+        margin:1em 0;
+        div.img-outer{
+            border:1px dotted #eee;
+            margin:0.4em;
+            position: relative;
+            img.imgitem{
+                width:120px;
+                height:120px;
+            }
+            i.iconfont{
+                position: absolute;
+                right:2px;
+                top:2px;
+                color:#ddd;
+                cursor:pointer;
+                &:hover{
+                    color:lightpink;
+                }
+            }
+        }
+    }
+
+    //发布
+    .send-essay-outer{
+   
+        button.send-essay-btn{
+          
+            
+            border:none;
+            
+            color:#fff;
+            border-radius: 5px;
+            padding:0.4em 0.6em;    
+            cursor: pointer;
+            &:hover:enabled{
+                background-color: rgb(103, 253, 103) !important;
+            }
+        }
+    }
+    
+}

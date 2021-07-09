@@ -1,0 +1,100 @@
+.login-reg{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+  
+    background-color: rgba(0, 0, 0, 0.349);
+}
+
+div.user-login-regist{
+    width:400px;
+    min-height:280px;
+    position:absolute;
+    left:0;
+    right:0;
+    top:100px;
+    opacity: 1;
+    margin:auto;
+    color:#000;
+    text-align: center;
+    background-color: #fff;
+    z-index:999;
+    i.icon-guanbi{
+        position:absolute;
+        right:2px;
+        top:2px;
+        &:hover{
+            cursor: pointer;
+            color:rgb(70, 73, 252);
+        }
+    }
+    .log-reg-ch{
+        position:relative;
+        padding:0.6em 0;
+        margin:0 0.8em;
+        border-radius: 4px 4px 10px 10px;
+        border-bottom: 3px solid #8c7200;
+        span.react-angle{
+            position:absolute;
+            bottom:1px;
+           
+            width:0;
+            height:0;
+            border:5px solid transparent;
+            border-bottom-color:#8c7200;
+
+        }
+        span.tab-text{
+            margin:0 1em;
+            cursor:pointer;
+        }
+        b.split-line{
+            font-size:0.4em;
+            color:#999;
+        }
+    }
+
+    // 登录
+    .user-input-info {
+        padding:1em;
+        padding-left:2em;
+        input[name]{
+            display: block;
+            outline: none;
+            border:1px solid #eee;
+            height:2em;
+            width:240px;
+            margin-bottom:1em;
+            text-indent: 0.2em;
+            border-radius: 4px;
+            &:hover{
+                border:1px solid #008c8c;
+            }
+            &::placeholder{
+                font-size:.6em;
+                color:#ccc;
+            }
+        }
+
+        input[type="submit"]{
+            display: block;
+            outline: none;
+            border:0;
+            height:2em;
+            width:240px;
+            border-radius: 4px;
+
+            color:#fff;
+           
+        }        
+    }
+
+    //错误信息
+    div.err-show{
+        color:#f00;
+        font-size:.6em;
+    }
+    
+}

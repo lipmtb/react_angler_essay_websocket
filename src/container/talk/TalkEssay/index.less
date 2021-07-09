@@ -1,0 +1,363 @@
+@import "~assets/less/bgavatar";
+@import "~assets/less/mixin";
+
+.talk-essay-wrapper{
+    border-bottom:1px solid #ccc;
+    margin-bottom:1em;
+    padding-bottom: 2em;
+}
+.essaytop-info{
+    .clearfix;
+    .userinfo-left{
+        .left;
+         
+     }
+     span.user-nameshow{
+         .left;
+         margin-top:0.8em;
+         margin-left:0.6em;
+     }
+
+     b.essay-timerstr{
+        .left;
+        color:#ccc;
+        font-size:0.4em;
+        margin-top:2em;
+        margin-left:40px;
+        font-weight:400;
+     }
+}
+
+.essay-title{
+    h3.essay-title-h3{
+        margin-bottom:0.2em;
+        cursor: pointer;
+        color:#008c8c;
+        &:hover{
+            color:#f6d;
+        }
+    }
+}
+
+.essay-content{
+    p.essay-passage{
+        margin:0;
+    }
+}
+.img-show{
+    padding:1em 0;
+    width:500px;
+    position:relative;
+    img{
+        width:150px;
+        padding:0.4em;
+        cursor:zoom-in;
+    }
+}
+
+//url(https://wbstatic.douyu.com/others/4e4363a267766ccdbc2935efda143c4e.cur),auto
+div.img-bigger{
+    position:relative;
+    width:500px;
+    background-color: rgba(238, 238, 238, 0.774);
+ 
+    img{
+        width:400px;
+        margin-left:50px;
+        cursor: zoom-out;
+    }
+    div.direction{
+        position:absolute;
+        width:50px;
+        height:100%;
+        &.left-arrow{
+            left:0;
+            top:0;
+            cursor: url(https://wbstatic.douyu.com/others/6a81b44d1d90317fa096eb5b6eb74ae2.cur),auto;
+        }
+        
+        &.right-arrow{
+            top:0;
+            right:0;
+            cursor:url(https://wbstatic.douyu.com/others/4e4363a267766ccdbc2935efda143c4e.cur),auto;
+        }
+    }
+
+    
+
+}
+
+
+.comment-toggle{
+    width:500px;    
+    span.comment-toggle-btn{
+        display: inline-block;
+       
+        padding:0.2em 0.6em;
+        background-color: #eee;
+        cursor: pointer;
+        border-radius: 6px;
+        &:hover{
+            color:rgb(255, 210, 8);
+        }
+    }
+   
+}
+.all-comment-fields{
+   
+    box-shadow: 1px 1px 5px 4px #999;
+    margin-top:0.6em;
+    overflow: hidden;
+    opacity:1;
+    transition:all 500ms ease-in;
+    button.login-showbtn{
+        background-color: rgba(174, 250, 103, 0.767);
+        text-decoration: underline;
+        color:#66f;
+        border:0;
+        cursor:pointer;
+        border-radius: 6px;
+    }
+    // 评论翻页
+    div.select-page-comm{
+        text-align: center;
+        button{
+            border:0;
+            background-color:rgb(247, 247, 88);
+            color:#008c8c;
+            padding:0.2em 0.6em;
+            cursor: pointer;
+            margin:0 .4em;
+            border-radius: 6px;
+        }
+    }
+}
+.my-top{
+    .clearfix;
+    .userinfo-left,input.inputcommtext,button.send-comment-btn{
+        .left;
+    }
+    input.inputcommtext,button.send-comment-btn{
+     
+        border-radius: 6px;
+    }
+    input.inputcommtext{
+
+        width:400px;
+        padding:0.6em 0.4em;
+        border:1px solid #eee;
+        margin-top:0.6em;
+        outline: none;
+        &:focus{
+            border-color:rgb(247, 227, 52);
+        }
+    }
+    button.send-comment-btn{
+        margin-top:0.9em;
+        background-color: #a8a8a8;
+        color:#fff;
+        border:0;
+        padding:0.4em 0.6em;
+        margin-left:0.2em;
+    }
+}
+.my-select{
+    position:relative;
+    padding:0.4em 0.6em;
+    span.add-com-img{
+        cursor:pointer;
+        font-size:0.6em;
+        color:#666;
+        margin-left:0.2em;
+        &:hover{
+            color:rgb(252, 211, 77);
+        }
+    }
+    // 评论选择图片区域
+    .img-hidebox{
+        position:absolute;
+        left:26px;
+        top:1.8em;
+        
+        width:300px;
+        box-shadow: 1px 1px 5px 4px #f6f6f6;
+        background-color: #fff;
+        padding:0.4em;
+        i.iconfont{
+            position:absolute;
+            right:0.2em;
+            top:0;
+            cursor: pointer;
+        }
+        .img-add-sel{
+            width:100px;
+            height:100px;
+            border:1px dashed #eee;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            &:hover{
+                color:#66f;
+                border-color:#66f;
+            }
+            label{
+                line-height: 100px;
+            }
+        }
+        .img-show-prev{
+            position:relative;
+            img.img-comm{
+                width:100px;
+                height:100px;
+            }
+            i.iconfont{
+                position:absolute;
+                top:0;
+                right:0;
+            }
+        }
+    }
+
+}
+.comment-leader-top{
+    margin:1em 0;
+}
+.comment-lists{
+    .comment-item{
+        .clearfix;
+        margin:0.6em 0;
+        .user-avatar{
+            .left;
+            width:50px;
+        }
+        .comm-main{
+           .left;
+           margin-top:1em;
+           .comm-user-content{
+            //    评论配图
+                .comm-img-toggle{
+                    position:relative;
+                    width:50px;
+                    img{
+                        position:absolute;
+                        top:22px;
+                        left:0;
+                        background-color:#fff;
+                        display:none;
+                         box-shadow:1px 1px 5px 4px #adadad;
+                         z-index:6;
+                    }
+                    i.comm-img-top{
+                        position:absolute;
+                        left:20px;
+                        top:10px;
+                        width:0;
+                        height:0;
+                        border:6px solid transparent;
+                        border-bottom-color:rgb(61, 60, 60);
+                        display:none;   
+                    }
+                    &:hover img{
+                        display: block;
+                    }
+                    &:hover i{
+                        display: block;
+                    }
+                }
+               
+           }
+           .show-reply{
+               margin-top:0.6em;
+               color:#666;
+               font-size:0.4em;
+               .reply-toggle-btn{
+                   cursor:pointer;
+               }
+               .comm-time{
+                   margin-left:200px;
+               }
+           }
+           .reply-lists-wrapper{
+               background-color: #f6f6f6;
+               height: 60px;
+               overflow: hidden;
+               transition:all 400ms ease-out;
+               border-radius: 6px;
+               input[name="reply-intext"]{
+                outline: none;
+                border:1px solid #eee;
+                box-sizing: border-box;
+                height:24px;
+                padding:0.2em;
+                border-radius: 5px;
+                &::placeholder{
+                    font-size:0.4em;
+                    color:#ccc;
+                }
+               }
+
+               button.reply-btn{
+                   position:relative;
+                   bottom:0.2em;
+                   left:1em;
+                   border:none;
+                   background-color: #e5f171;
+                   color:#008c8c;
+                   border-radius: 2px;
+                   font-size:0.6em;
+                    cursor: pointer;
+                    padding:0.4em 0.6em;
+                    
+                   
+               }
+            div.reply-lists{
+                div.reply-detail{
+                    i.avatar-init{
+                        display: inline-block;
+                        position:relative;
+                        top:0.6em;
+                    }
+                    span.middle-to{
+                        font-size:0.5em;
+                        color:#ccc;
+                    }
+                    span.reply-user-name{
+                        margin-right:0.4em;
+                    }
+                    span.reply-sub-btn{
+                        padding:0.2em 0.4em;
+                        background-color: #f6f6f6;
+                        color:#008c8c;
+                        border:none;
+                        font-size:0.6em;
+                        cursor: pointer;
+                        margin-left:2em;  
+                        &:hover{
+                            text-decoration: underline;
+                            background-color: antiquewhite;
+                        }  
+                    }
+
+                    // 子回复输入
+                    div.reply-sub-in{
+                        margin-top:0.5em;
+                        input[name="reply-sub-intext"]{
+                            outline: none;
+                            border:1px solid #eee;
+                            box-sizing: border-box;
+                            height:20px;
+                            padding:0.2em;
+                            border-radius: 4px;
+                            &::placeholder{
+                                font-size:0.4em;
+                                color:#ccc;
+                            }
+                        }
+                    }
+                }
+            }
+           }
+        }
+
+    }
+}

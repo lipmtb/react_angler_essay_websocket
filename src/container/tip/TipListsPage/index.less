@@ -1,0 +1,33 @@
+@import "~assets/less/mixin.less";
+.tip-list-wrapper{
+    padding:0.6em;
+    //技巧分类h2    
+    .tip-typelists-leader{
+        width:600px;
+        .clearfix;
+        h2.tip-top-title{
+            .left;
+            width:200px;
+            background-image:-webkit-linear-gradient(left top,rgb(248, 203, 78),rgb(231, 57, 57),rgb(116, 207, 192));
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        } 
+        button.add-tip-btn{
+                .right;
+                border:1px solid #eaeaea;
+                background-image: -webkit-linear-gradient(left,rgb(247, 186, 18),rgb(235, 255, 144));
+                padding:0.4em 0.6em;
+                margin-top:1em;
+                border-radius: 5px;
+                cursor:pointer;
+                &:hover{
+                    background-image: -webkit-linear-gradient(right,rgb(248, 203, 78),rgb(231, 57, 57));
+                    color:#fff;
+                }
+        }
+    }
+   
+    .all-type-lists{
+        padding-bottom:200px;
+    }
+}   

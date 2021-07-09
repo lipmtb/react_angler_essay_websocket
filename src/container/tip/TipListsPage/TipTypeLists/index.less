@@ -1,0 +1,68 @@
+
+.tip-type-lists{
+  
+    padding:1em 0.4em;
+    background-color: #ddf;
+    h3.tip-type-text{
+        cursor:pointer;
+    }
+
+    ul.essay-bref-lists{
+        display: flex;
+        flex-wrap:wrap;
+        
+        width:810px;
+        padding-top:0.5em;
+        background-color: #eee;
+        li.tip-li-item{
+            width:240px;
+            padding:0.6em;
+            text-align: center;
+            background-color: #fff;
+            margin:0 0.5em 0.5em;
+            &:nth-child(3n+2){
+                margin:0 0 0.5em;
+            }
+            a.essay-link-wrapper{
+                cursor:pointer;
+                color:#333;
+            }
+            div.left-img{
+                float:left;
+                overflow: hidden;
+                border:1px solid #eee;
+                &:hover{
+                    img{
+                        transform:scale(1.2);
+                    }
+                }
+                img{
+                    width:128px;
+                    height:128px;  
+                    transition: all 200ms ease-in;
+                }
+            }
+            div.tipessay-main{
+                min-height:128px;
+                overflow: hidden;
+                p.tipessay-title{
+                    white-space:nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin-top:3em;
+                    color:#333;
+                    &:hover{
+                        color:rgb(250, 164, 34);
+                    }
+                }
+                div.tipessay-footer{
+                    span.pub-username{
+                        font-size:0.6em;
+                        color:#ccc;
+                    }
+                }
+            }
+            
+        }
+    }
+}

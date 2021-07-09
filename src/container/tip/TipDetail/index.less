@@ -1,0 +1,78 @@
+@import "~assets/less/bgavatar.less";
+@import "~assets/less/mixin.less";
+
+@typeColor:rgb(250, 157, 36);
+.tip-essay-wrapper{
+    margin:20px auto;
+    padding:1em 0.4em 100px;
+    
+    width:480px;
+    box-shadow: 1px 1px 2px 1000px rgba(182, 224, 238, 0.096);
+}
+
+.nav-essay-leader{
+    h2.essay-leader-text{
+        width:160px;
+        background:-webkit-linear-gradient(right,rgb(245, 216, 90),#008c8c,#254433,#a41,);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    i.back-btn{
+        font-style:normal;
+        font-size:0.6em;
+        cursor: pointer;
+        color:#ccc;
+        &:hover{
+            color:#111;
+        }
+    }
+}
+
+
+// 帖子top ：发布者头像和昵称
+.tip-essay-top{
+    .clearfix;
+    border-bottom:1px solid #eaeaea;
+    padding:0.4em 0;
+    i,span{
+        .left;
+    }
+    span.essay-authorname{
+        margin-top:0.8em;
+        margin-left:0.2em;
+        color:#aaa;
+    }
+    b.essay-typetext{
+        .right;
+        margin-top:0.4em;
+        margin-right:1em;
+        font-size:0.54em;
+        color: @typeColor;
+        border:1px dotted @typeColor;
+        padding:0.2em 0.3em;
+        border-radius: 4px;
+    }
+}
+
+.essay-content{
+    p.essay-content-passage{
+        word-break: break-all;
+    
+        text-indent: 1em;
+    }
+    div.essay-ref-img{
+        img{
+            width:100%;
+        }
+    }
+}
+.essay-footer{
+    .clearfix;
+    margin-right:0.4em;
+    em{
+        .right;
+        font-size:0.4em;
+        color:#999;
+        
+    }
+}

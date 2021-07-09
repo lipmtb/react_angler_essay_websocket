@@ -1,0 +1,92 @@
+
+@import "assets/less/mixin.less";
+.ch-avatar{
+
+    .clearfix;
+    text-align: center;
+    padding:1em;
+    border:1px solid #eee;
+    .avatar-box{
+        .left;
+        width:240px;
+        height:200px;
+        border-right:1px solid #ddd;
+        &:last-child{
+            border:0;
+        }
+    }
+
+    // 左边预览
+    .preview-avatar-box{
+        .new-avatar-show{
+            width:80px;
+            height:80px;
+            display: block;
+            border-radius: 50%;
+            box-sizing: border-box;
+            margin-left:80px;
+            background-size:80px 80px;
+            background-repeat:no-repeat;
+            border-radius: 50%;
+            background-color: #fff;
+            border:1px solid #eee;
+        }
+        .init-img{
+            background:url("~assets/img/defaultAvatar.png") no-repeat center/contain;
+        }
+    }
+
+    //右边选择
+    .select-new-avatar{
+        .resize-wrapper{
+            width:160px;
+            height:160px;
+            position: relative;
+            margin-left:40px;
+            .black-mod{
+                position:absolute;
+                left:0;
+                top:0;
+                background-color: rgba(0, 0, 0, 0.589);
+                width:100%;
+                height:100%;
+                
+            }
+            .run-box{
+                position:absolute;
+               
+                height:120px;
+                width:120px;
+                background-color: #fff;
+                background-size: 160px 160px;
+                
+            }
+        
+        }
+        .resize-img{
+            width:160px;
+            height:160px;
+            background-color: #fff;
+         
+            
+            background-size:160px 160px;
+            background-repeat:no-repeat;
+            border:1px solid #eee;
+
+        }
+        .selectImageBtn{
+            display: inline-block;
+            padding:2px 6px;
+            background-color: aliceblue;
+            border-radius: 4px;
+            cursor:pointer;
+        }
+        .confirm-submit{
+            background-color:#69fdb3;
+            border:none;
+            border-radius: 5px;
+            cursor:pointer;
+            padding:0.2em 0.6em;
+        }
+    }
+}
