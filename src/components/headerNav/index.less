@@ -1,0 +1,113 @@
+
+@import (reference) "assets/less/mixin.less";
+@import  "assets/less/bgavatar.less";
+.header-nav-wrapper{
+    padding:0 1em;
+
+    background-image:-webkit-linear-gradient(left bottom,rgb(55, 149, 226),rgba(206, 237, 250, 0.342));
+    color:#fff;
+   .clearfix;
+    h1#app-header-title{
+        .left;
+        height:0;
+        overflow: hidden;
+        width:120px;
+        padding-top:80px;
+       margin:0; 
+        background: url('~assets/img/title.png') no-repeat center/contain;
+
+    }
+    ul.nav-lists{
+       .left;
+       height:80px;
+       width:50%;
+        text-align: center;
+       display: flex;
+        li.nav-item{
+            .left;
+            flex-grow:1;
+            line-height: 80px;
+            &:hover{
+                background-color:#7a83fd;
+                font-weight:bold;
+            }
+            a{
+                display: block;
+                width:100%;
+                height:100%;
+              color:#fff;
+            }
+        }
+    }
+
+    div.login-show-wrapper{
+        .right;
+        margin-right:60px;
+        margin-top:10px;
+        div.login-userinfo{
+            .user-info-top{
+                width:100px;
+                position:relative;
+                .clearfix;
+                .cache{
+                    position:absolute;
+                    left:0;
+                    transition:all 2s ease-in;
+                }
+                span{
+                    .left;
+                    transition:all 2s ease-in;
+                }
+                span.user-name-show{
+                    margin-top:4px;
+                    margin-left:2px;
+                }
+            }
+            .change-avatar-btn{
+                display: none;
+                cursor:pointer;
+            }
+
+            &:hover{
+                .change-avatar-btn{
+                    display: block;
+                }
+            }
+        }
+        
+        span.login-span{
+            padding:0.2em 0.6em;
+            background-color: rgb(80, 172, 253);
+            border-radius: 5px;
+            font-size:0.8em;
+            cursor: pointer;
+        }
+        
+    }
+
+    div.search-wrapper{
+        .right;
+        margin-right:30px;  
+        margin-top:26px;
+        position:relative;
+        input[type="text"]{
+            border-radius:5px;
+            outline: none;
+            border:0;
+            padding:0.2em;
+            &::placeholder{
+                font-size:.6em;
+                color:#ccc;
+            }
+        }
+        i.iconfont{
+            position: absolute;
+            right:2px;
+            top:4px;
+            color:#000;
+            cursor: pointer;
+            font-size:0.8em;
+        }
+    }
+}
+

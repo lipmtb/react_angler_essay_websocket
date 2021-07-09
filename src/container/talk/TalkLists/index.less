@@ -1,0 +1,71 @@
+@import "~assets/less/mixin.less";
+.talk-wrapper{
+    padding:0 0.6em;
+}
+.top-talk{
+    .clearfix;
+    padding:0.4em 1em;
+    border-bottom:1px solid #eee;
+    h2.title-talk{
+        .left;
+    }
+    .send-talk{
+        .right;
+        margin-top:1em;
+        background-color: rgb(250, 205, 57);
+        border-radius: 6px;
+        padding:0.2em 0.6em;
+    }
+
+
+    .select-talk-type{
+   
+        .clearfix;
+        padding-top:1em;
+        span.title-sel-text{
+            .left;
+            font-size:0.6em;
+            color:#ccc;
+        }
+        div.relative-select{
+            .left;
+            position: relative;
+            padding-left:0.6em;
+            
+            div.select-fake{
+                width:40px;
+                height:20px;
+                background-color: #fff;
+                cursor:pointer;
+                font-size:0.8em;
+                color:chocolate;
+                box-shadow: 1px 1px 4px 2px #ff0;
+                text-align: center;
+                line-height: 20px;
+            }
+            div.type-btns{
+                position: absolute;
+                left:7px;
+                top:21px;
+                background-color: #ccc;
+               overflow: hidden;
+               transition: all 2s ease-in;
+                button{
+                    width:40px;
+                    font-size:0.8em;
+                    border:0;
+                    padding:0;
+                    color:black;
+                    &:hover{
+                        color:chocolate;
+                    }
+                }
+            }
+        }
+       
+    }
+}
+
+.talk-show{
+    padding:0 2em;
+}
