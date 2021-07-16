@@ -1,8 +1,8 @@
 
-import {LOGIN,REGIST,SHOWLOADING,HIDELOADING,ISLOGIN,AVATAR} from "../actionType";
+import {LOGIN,REGIST,SHOWLOADING,HIDELOADING,ISLOGIN,AVATAR,MSGCOUNT} from "../actionType";
 import {login,regist,ajaxIsLogin} from "network/loginReg";
-import {changeNewAvatar} from "network/changeAvatar"
-
+import {changeNewAvatar} from "network/changeAvatar";
+import {getUserMsgTotal} from "network/message";
 //登录Action
 export function loginAction(userName,password){
     return (dispatch)=>{
@@ -20,6 +20,14 @@ export function loginAction(userName,password){
                     type:HIDELOADING,
                     data:''
                 })
+                if(res.userinfo&&res.userinfo._id){
+                    getUserMsgTotal(res.userinfo._id).then((res)=>{
+                            dispatch({
+                                type:MSGCOUNT,
+                                data:res
+                            })
+                    })
+                }
             
         }).finally(()=>{
             dispatch({
@@ -64,6 +72,14 @@ export function testLoginAction(){
                 type:ISLOGIN,
                 data:res
             })
+            if(res.userinfo&&res.userinfo._id){
+                getUserMsgTotal(res.userinfo._id).then((res)=>{
+                        dispatch({
+                            type:MSGCOUNT,
+                            data:res
+                        })
+                })
+            }
         })
     }
 }

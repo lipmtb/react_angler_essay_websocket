@@ -36,6 +36,23 @@ talkins.interceptors.response.use((res)=>{
             }
         }
     }
+
+    //帖子详情
+    if(res.data.talkdata){
+        let talkdata=res.data.talkdata;
+        if(talkdata.imgArr.length>0){
+            for(let i=0;i<talkdata.imgArr.length;i++){
+                talkdata.imgArr[i]=serverUrl+"/images/talk/"+talkdata.imgArr[i];
+            }
+        }
+        if(talkdata.userInfo){
+            if(talkdata.userInfo.avatarUrl){
+                talkdata.userInfo.avatarUrl=serverUrl+"/images/avatar/"+ talkdata.userInfo.avatarUrl;
+                
+            }
+        }
+        
+    }
     return res.data;
 })
 
@@ -130,4 +147,10 @@ export function getMyTalkSend(userId,skip,limit=4){
             limit:limit
         }
     })
+}
+
+
+//获取帖子详情
+export function getTalkEssayById(talkId){
+    return talkins.get("/proxy1/talk/talkEssayDetail/"+talkId)
 }

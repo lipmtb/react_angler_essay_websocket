@@ -4,8 +4,8 @@ import pubsub from "pubsub-js";
 import { showLoadingAction, hideLoadingAction } from "../../../redux/actions/loadingAction"
 
 import { getTalkCommentById, commentMainTalk, sendReplyComment } from "network/commentTalk";
-import { createCommentMessage } from "network/message";
-import {getTalkCommentCount} from "network/talk";
+import { createCommentMessage, createReplyCommentMessage } from "network/message";
+import { getTalkCommentCount } from "network/talk";
 import "./index.less";
 class TalkEssay extends Component {
     state = {
@@ -13,13 +13,13 @@ class TalkEssay extends Component {
         curBigIdx: 0,  //展示的某个大图
         showComment: false, //是否展示输入评论和评论列表区域
         commentLists: [], //当前评论的列表
-        totalCommentCount:0,
+        totalCommentCount: 0,
         commentPage: 0,  //当前加载评论的页码
         canSendComment: false,//评论是否能发送
         showCommImg: false,  //是否展示评论输入的图片
         willSendFile: null, //评论选择的图片(上传到后端)
         tmpFile: "", //临时展示的图片objectUrl（显示在界面上预览）
-        largerPadding:false
+        largerPadding: false
     }
     showLoginMod = () => {
         pubsub.publish("tologin");
@@ -101,10 +101,10 @@ class TalkEssay extends Component {
     //挂载完立刻获取总评论数，第一页的评论
     componentDidMount() {
         //总评论数
-        getTalkCommentCount(this.props.talkdata._id).then((res)=>{
+        getTalkCommentCount(this.props.talkdata._id).then((res) => {
             // console.log("总评论数",res);
             this.setState({
-                totalCommentCount:res.total
+                totalCommentCount: res.total
             })
         })
         this.getCommentByPage(0).then((newCommentLists) => {
@@ -153,7 +153,7 @@ class TalkEssay extends Component {
     //评论选择图片
     handleAddingCommentImg = (e) => {
         let files = e.currentTarget.files;
-        console.log("上传的图片", files);
+        // console.log("上传的图片", files);
         let tmpUrl = document.defaultView.URL.createObjectURL(files[0]);
         this.setState({
             willSendFile: files[0], //评论选择的图片(上传到后端)
@@ -172,58 +172,13 @@ class TalkEssay extends Component {
 
         })
     }
-    //发送主评论
-    sendNewMainComment = () => {
-        let commentMessageContent= this.commIn.value;
-        console.log("发布主评论", this.props.userInfo, this.props.talkdata._id, this.commIn.value, this.state.willSendFile);
-        this.props.showLoading("提交评论");
-        commentMainTalk(this.props.userInfo, this.props.talkdata._id, this.commIn.value, this.state.willSendFile).then((res) => {
-            console.log("主评论返回结果", res);
-            if (res.errCode === 0) {
 
-
-                this.setState(state => {
-                    let { commentLists, tmpFile } = state;
-                    if (tmpFile) {
-
-                        document.defaultView.URL.revokeObjectURL(tmpFile);
-                    }
-                    let newComment = {
-                        userInfo: this.props.userInfo,
-                        anglerName: this.props.userInfo.userName,
-                        _id: res.commentItem._id,
-                        commentText: this.commIn.value,
-                        commentTime: "刚刚",
-                        commentTalkId: this.props.talkdata._id,
-                        replyLists: [],
-                        showReplyText: true,
-                        imgArr: res.commentItem.imgArr
-                    }
-                    this.commIn.value = "";
-                    return {
-                        canSendComment: false,//评论是否能发送
-                        showCommImg: false,  //是否展示评论输入的图片
-                        willSendFile: null, //评论选择的图片(上传到后端)
-                        tmpFile: "",  //临时展示的图片objectUrl（显示在界面上预览）
-                        commentLists: [newComment, ...commentLists]
-                    }
-                })
-
-                //发送消息通知被评论的人
-                createCommentMessage(this.props.talkdata.anglerId,this.props.talkdata._id,this.props.userInfo._id,this.props.userInfo.userName,commentMessageContent).then((res)=>{
-                    console.log("主评论发送消息通知结果",res);
-                })
-            }
-        }).finally(() => {
-            this.props.hideLoading();
-        })
-    }
 
     //上一页评论
     showLastComment = () => {
         let { commentPage } = this.state;
         this.getCommentByPage(commentPage - 1).then((newlists) => {
-            console.log("获取评论", commentPage - 1, ":", newlists);
+            // console.log("获取评论", commentPage - 1, ":", newlists);
             this.setState({
                 commentLists: newlists,
                 commentPage: commentPage - 1
@@ -235,7 +190,7 @@ class TalkEssay extends Component {
     showNextComment = () => {
         let { commentPage } = this.state;
         this.getCommentByPage(commentPage + 1).then((newlists) => {
-            console.log("获取评论", commentPage + 1, ":", newlists);
+            // console.log("获取评论", commentPage + 1, ":", newlists);
             this.setState({
                 commentLists: newlists,
                 commentPage: commentPage + 1
@@ -286,132 +241,205 @@ class TalkEssay extends Component {
 
     }
 
+    //发送主评论
+    sendNewMainComment = () => {
+        let commentMessageContent = this.commIn.value;
+        // console.log("发布主评论", this.props.userInfo, this.props.talkdata._id, this.commIn.value, this.state.willSendFile);
+        this.props.showLoading("提交评论");
+        commentMainTalk(this.props.userInfo, this.props.talkdata._id, this.commIn.value, this.state.willSendFile).then((res) => {
+            // console.log("主评论返回结果", res);
+            if (res.errCode === 0) {
+
+
+                this.setState(state => {
+                    let { commentLists, tmpFile } = state;
+                    if (tmpFile) {
+
+                        document.defaultView.URL.revokeObjectURL(tmpFile);
+                    }
+                    let newComment = {
+                        userInfo: this.props.userInfo,
+                        anglerName: this.props.userInfo.userName,
+                        _id: res.commentItem._id,
+                        commentText: this.commIn.value,
+                        commentTime: "刚刚",
+                        commentTalkId: this.props.talkdata._id,
+                        replyLists: [],
+                        showReplyText: true,
+                        imgArr: res.commentItem.imgArr
+                    }
+                    this.commIn.value = "";
+                    return {
+                        canSendComment: false,//评论是否能发送
+                        showCommImg: false,  //是否展示评论输入的图片
+                        willSendFile: null, //评论选择的图片(上传到后端)
+                        tmpFile: "",  //临时展示的图片objectUrl（显示在界面上预览）
+                        commentLists: [newComment, ...commentLists]
+                    }
+                })
+
+                if(this.props.talkdata.anglerId===this.props.userInfo._id){
+                    return;
+                }
+                //发送消息通知被评论的人
+                createCommentMessage(this.props.talkdata.anglerId, this.props.talkdata._id, this.props.userInfo._id, this.props.userInfo.userName, commentMessageContent).then((res) => {
+                    // console.log("主评论发送消息通知结果", res);
+                })
+            }
+        }).finally(() => {
+            this.props.hideLoading();
+        })
+    }
     //回复某条主评论
     onReplyComment = (comm) => {
         return (e) => {
-            let cintput=e.currentTarget.previousElementSibling;
-            let cText= cintput.value;
-            this.props.showLoading("回复"+comm.anglerName);
+            let cintput = e.currentTarget.previousElementSibling;
+            let cText = cintput.value.trim();
+            if(cText.length===0){
+                return;
+            }
+            this.props.showLoading("回复" + comm.anglerName);
             // console.log("回复",comm._id,this.props.userInfo.userName,comm.anglerName,e.currentTarget.previousElementSibling.value);
-            sendReplyComment(comm._id, this.props.userInfo.userName, comm.anglerName,cText).then((res) => {
-                console.log("回复主评论结果", res);
-                if(res.errCode===0){
+            sendReplyComment(comm._id, this.props.userInfo.userName, comm.anglerName, cText).then((res) => {
+                // console.log("回复主评论结果", res);
+                if (res.errCode === 0) {
                     //回复成功添加新回复
-                    cintput.value="";
-                    let newMainReply={
-                        _id:Math.random()+Date.now(),
-                        fromUserName:this.props.userInfo.userName,
-                        toUserName:comm.anglerName,
-                        fromUserInfo:this.props.userInfo,
-                        toUserInfo:comm.userInfo,
-                        commentText:cText,
-                        commentTime:'刚刚',
-                        showSubIn:false,
-                        mainCommentId:comm._id
+                    cintput.value = "";
+                    let newMainReply = {
+                        _id: Math.random() + Date.now(),
+                        fromUserName: this.props.userInfo.userName,
+                        toUserName: comm.anglerName,
+                        fromUserInfo: this.props.userInfo,
+                        toUserInfo: comm.userInfo,
+                        commentText: cText,
+                        commentTime: '刚刚',
+                        showSubIn: false,
+                        mainCommentId: comm._id
 
                     }
-                    let {commentLists}=this.state;
+                    let { commentLists } = this.state;
                     this.setState({
-                        commentLists:commentLists.map((maincomment)=>{
-                            if(maincomment._id===comm._id){
+                        commentLists: commentLists.map((maincomment) => {
+                            if (maincomment._id === comm._id) {
                                 maincomment.replyLists.push(newMainReply);
                             }
                             return maincomment;
                         })
                     })
+                    if(comm.userInfo._id===this.props.userInfo._id){
+                        return;
+                    }
+                    //发送消息通知被评论的人
+                    createReplyCommentMessage(comm.userInfo._id, this.props.talkdata._id, this.props.userInfo._id, this.props.userInfo.userName, cText, comm.commentText).then((res) => {
+                        // console.log("回复主评论通知结果", res);
+                    })
                 }
-            }).finally(()=>{
+            }).finally(() => {
                 this.props.hideLoading();
             })
         }
     }
 
     //展开折叠某条子评论的回复
-    onToggleSubReply = (comm,replyItem) => {
-        return ()=>{
+    onToggleSubReply = (comm, replyItem) => {
+        return () => {
             // console.log("回复子评论************");
-            let {commentLists}=this.state;
-          this.setState({
-            commentLists:commentLists.map((maincomm)=>{
-                if(comm._id===maincomm._id){
-                    let {replyLists}=maincomm;
-                    for(let reply of replyLists){
-                      
-                        if(reply._id===replyItem._id){
-                            reply.showSubIn=!reply.showSubIn;
-                            continue;
+            let { commentLists } = this.state;
+            this.setState({
+                commentLists: commentLists.map((maincomm) => {
+                    if (comm._id === maincomm._id) {
+                        let { replyLists } = maincomm;
+                        for (let reply of replyLists) {
+
+                            if (reply._id === replyItem._id) {
+                                reply.showSubIn = !reply.showSubIn;
+                                continue;
+                            }
+                            reply.showSubIn = false;
                         }
-                        reply.showSubIn=false;
+                        // let newMainComm=Object.assign({},maincomm);
+                        // newMainComm.replyLists=[...replyLists];
+                        // return newMainComm;
+                        return maincomm;
+                    } else {
+                        return maincomm;
                     }
-                    // let newMainComm=Object.assign({},maincomm);
-                    // newMainComm.replyLists=[...replyLists];
-                    // return newMainComm;
-                    return maincomm;
-                }else{
-                    return maincomm;
-                }
+                })
             })
-          })
         }
-      
+
     }
 
     //发送子评论的回复
-    onReplySubComment=(comm,replyitem)=>{
-        
-        return (e)=>{
-            let subinput=e.currentTarget.previousElementSibling;
-            let originValue=subinput.value;
-            let commentId=comm._id;
-            this.props.showLoading("回复"+ replyitem.fromUserName);
+    onReplySubComment = (comm, replyitem) => {
+
+        return (e) => {
+            let subinput = e.currentTarget.previousElementSibling;
+            let originValue = subinput.value.trim();
+            if(originValue.length===0){
+                return;
+            }
+            let commentId = comm._id;
+            this.props.showLoading("回复" + replyitem.fromUserName);
             sendReplyComment(comm._id, this.props.userInfo.userName, replyitem.fromUserName, originValue).then((res) => {
-                console.log("回复子评论回复结果", res);
-                if(res.errCode===0){
+                // console.log("回复子评论回复结果", res);
+                if (res.errCode === 0) {
                     //回复成功添加新回复
-                    subinput.value="";//清空输入框
-                    let newSubReply={
-                        _id:Math.random()+Date.now(),
-                        fromUserName:this.props.userInfo.userName,
-                        toUserName:replyitem.fromUserName,
-                        fromUserInfo:this.props.userInfo,
-                        toUserInfo:replyitem.fromUserInfo,
-                        commentText:originValue,
-                        commentTime:'刚刚',
-                        showSubIn:false,
-                        mainCommentId:comm._id
+                    subinput.value = "";//清空输入框
+                    let newSubReply = {
+                        _id: Math.random() + Date.now(),
+                        fromUserName: this.props.userInfo.userName,
+                        toUserName: replyitem.fromUserName,
+                        fromUserInfo: this.props.userInfo,
+                        toUserInfo: replyitem.fromUserInfo,
+                        commentText: originValue,
+                        commentTime: '刚刚',
+                        showSubIn: false,
+                        mainCommentId: comm._id
 
                     }
-                    this.setState(state=>{
-                        let {commentLists}=state;
-                        for(let citem of commentLists){
-                            if(citem._id===commentId){
-                                citem.replyLists=[...citem.replyLists,newSubReply];
-                                for(let subreply of citem.replyLists){
-                                    subreply.showSubIn=false;
+                    this.setState(state => {
+                        let { commentLists } = state;
+                        for (let citem of commentLists) {
+                            if (citem._id === commentId) {
+                                citem.replyLists = [...citem.replyLists, newSubReply];
+                                for (let subreply of citem.replyLists) {
+                                    subreply.showSubIn = false;
                                 }
                             }
                         }
-                        console.log("update new reply************");
-                        return Object.assign(state,{commentLists:[...commentLists]});
+                        // console.log("update new reply************");
+                        return Object.assign(state, { commentLists: [...commentLists] });
                     })
-
+                    if(replyitem.fromUserInfo._id===this.props.userInfo._id){
+                            return;
+                    }
+                    createReplyCommentMessage(replyitem.fromUserInfo._id, this.props.talkdata._id, this.props.userInfo._id, this.props.userInfo.userName, originValue, replyitem.commentText).then((res) => {
+                        // console.log("回复子评论通知结果", res);
+                    })
                 }
-            }).finally(()=>{
+            }).finally(() => {
                 this.props.hideLoading();
             })
         }
     }
 
     //调整评论区大小
-    resizeAllCommentFields=()=>{
+    resizeAllCommentFields = () => {
         this.setState({
-            largerPadding:true
+            largerPadding: true
         })
     }
-    resetAllCommentFields=()=>{
+    resetAllCommentFields = () => {
         this.setState({
-            largerPadding:false
+            largerPadding: false
         })
+    }
+
+    toTalkDetail=(tid)=>{
+        return ()=>{
+            this.props.toTalkDetailPage(tid);
+        }
     }
     render() {
         return (
@@ -432,7 +460,7 @@ class TalkEssay extends Component {
                     <b className="essay-timerstr">{this.props.talkdata.publishTime}</b>
                 </div>
                 <div className="essay-title">
-                    <h3 className="essay-title-h3">{this.props.talkdata.title}</h3>
+                    <h3 className="essay-title-h3" onClick={this.toTalkDetail(this.props.talkdata._id)}>{this.props.talkdata.title}</h3>
                 </div>
 
                 <div className="essay-content">
@@ -468,7 +496,7 @@ class TalkEssay extends Component {
                     }
                 </div>
 
-                <div className="all-comment-fields" style={{ opacity: this.state.showComment ? 1 : 0, padding: this.state.showComment ? this.state.largerPadding?'4em 0.6em':'1em 0.6em' : "0", height: this.state.showComment ? "auto" : '0' }}>
+                <div className="all-comment-fields" style={{ opacity: this.state.showComment ? 1 : 0, padding: this.state.showComment ? this.state.largerPadding ? '4em 0.6em' : '1em 0.6em' : "0", height: this.state.showComment ? "auto" : '0' }}>
                     {/* 自己发布评论区域 */}
                     <div className="no-login" style={{ display: this.props.isLogin ? 'none' : "block" }}>
                         <button onClick={this.showLoginMod} className="login-showbtn">登录发评论</button>
@@ -532,14 +560,14 @@ class TalkEssay extends Component {
                                         <div className="comm-user-content">
                                             <span>{comm.anglerName}</span>
                                             <span> : {comm.commentText}</span>
-                                            <div className="comm-img-toggle"  style={{ display: (comm.imgArr && comm.imgArr.length) ? 'inline-block' : 'none', marginLeft: "1em", color: "#ccc", fontSize: '0.6em', cursor: "pointer" }}>
+                                            <div className="comm-img-toggle" style={{ display: (comm.imgArr && comm.imgArr.length) ? 'inline-block' : 'none', marginLeft: "1em", color: "#ccc", fontSize: '0.6em', cursor: "pointer" }}>
                                                 评论配图
-                                                {(comm.imgArr && comm.imgArr.length) ? <img src={comm.imgArr[0]} onLoad={this.onCommImgLoad(idx)} 
-                                                alt="评论图片"  onMouseEnter={this.resizeAllCommentFields} onMouseLeave={this.resetAllCommentFields}
-                                                style={{
-                                                    left: comm.commImgWidth ? (25 - comm.commImgWidth / 2) + "px" : "0",
-                                                    top: (comm.commImgHeight > 80 && idx >= 2) ? (-1 * comm.commImgHeight + 2) + "px" : "22px"
-                                                }} /> : ""}
+                                                {(comm.imgArr && comm.imgArr.length) ? <img src={comm.imgArr[0]} onLoad={this.onCommImgLoad(idx)}
+                                                    alt="评论图片" onMouseEnter={this.resizeAllCommentFields} onMouseLeave={this.resetAllCommentFields}
+                                                    style={{
+                                                        left: comm.commImgWidth ? (25 - comm.commImgWidth / 2) + "px" : "0",
+                                                        top: (comm.commImgHeight > 80 && idx >= 2) ? (-1 * comm.commImgHeight + 2) + "px" : "22px"
+                                                    }} /> : ""}
                                                 {(comm.imgArr && comm.imgArr.length) ? <i className="comm-img-top" ></i> : ""}
                                             </div>
 
@@ -554,9 +582,9 @@ class TalkEssay extends Component {
                                             <div className="reply-in">
                                                 <input type="text" name="reply-intext" placeholder={"回复" + comm.anglerName} />
                                                 {
-                                                    this.props.isLogin?
-                                                <button className="reply-btn" onClick={this.onReplyComment(comm)}>回复</button>:
-                                                <button className="reply-btn" onClick={this.showLoginMod}>登录</button>
+                                                    this.props.isLogin ?
+                                                        <button className="reply-btn" onClick={this.onReplyComment(comm)}>回复</button> :
+                                                        <button className="reply-btn" onClick={this.showLoginMod}>登录</button>
 
                                                 }
                                             </div>
@@ -577,14 +605,14 @@ class TalkEssay extends Component {
                                                             }
                                                             <span className="reply-user-name">{replyItem.toUserName}:</span>
                                                             <span>{replyItem.commentText}</span>
-                                                            <span className="reply-sub-btn" onClick={this.onToggleSubReply(comm,replyItem)}>{replyItem.showSubIn?"取消回复":'回复'}</span>
-                                                           <div className="reply-sub-in" style={{display:replyItem.showSubIn?"block":"none"}}>  {/*回复子评论 */}
+                                                            <span className="reply-sub-btn" onClick={this.onToggleSubReply(comm, replyItem)}>{replyItem.showSubIn ? "取消回复" : '回复'}</span>
+                                                            <div className="reply-sub-in" style={{ display: replyItem.showSubIn ? "block" : "none" }}>  {/*回复子评论 */}
                                                                 <input type="text" name="reply-sub-intext" placeholder={"回复" + replyItem.fromUserName} />
-                                                                {this.props.isLogin?     
-                                                                 <button className="reply-btn" onClick={this.onReplySubComment(comm,replyItem)}>发送回复</button>: 
-                                                                 <button className="reply-btn" onClick={this.showLoginMod}>登录</button>
-                                                                 }
-                                                              
+                                                                {this.props.isLogin ?
+                                                                    <button className="reply-btn" onClick={this.onReplySubComment(comm, replyItem)}>发送回复</button> :
+                                                                    <button className="reply-btn" onClick={this.showLoginMod}>登录</button>
+                                                                }
+
                                                             </div>
                                                         </div>
                                                     }) : ""
@@ -599,7 +627,7 @@ class TalkEssay extends Component {
 
                     <div className="select-page-comm">
                         <button disabled={!this.state.commentPage} style={{ backgroundColor: this.state.commentPage ? "rgb(247, 247, 88)" : "#eee" }} onClick={this.showLastComment}>上一页</button>
-                        <button disabled={this.state.commentLists.length < 4} style={{ backgroundColor: this.state.commentLists.length >=4 ? "rgb(247, 247, 88)" : "#eee" }} onClick={this.showNextComment}>下一页</button>
+                        <button disabled={this.state.commentLists.length < 4} style={{ backgroundColor: this.state.commentLists.length >= 4 ? "rgb(247, 247, 88)" : "#eee" }} onClick={this.showNextComment}>下一页</button>
                     </div>
                 </div>
 

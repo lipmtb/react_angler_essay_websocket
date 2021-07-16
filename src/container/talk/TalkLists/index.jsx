@@ -229,6 +229,9 @@ class TalkListsUI extends Component {
             typeHeight: "0"
         })
     }
+    totalkdetail=(tid)=>{
+        this.props.history.push("/talkDetail/"+tid);
+    }
     render() {
         // console.log("talklist render******************");
         return (
@@ -264,7 +267,7 @@ class TalkListsUI extends Component {
                 <div className="talk-show">
                     {
                         this.state.curTalkLists.map((talk) => {
-                            return <TalkEssay key={talk._id} talkdata={talk} />
+                            return <TalkEssay key={talk._id} talkdata={talk} toTalkDetailPage={this.totalkdetail}/>
                         })
                     }
                 </div>

@@ -5,7 +5,7 @@ import LoginTest from 'container/LoginTest'
 const TalkPage = lazy(() => import("container/talk"))
 const TipPage = lazy(() => import("container/tip"))
 const ProfilePage = lazy(() => import("container/Profile"))
-
+const TalkDetailPage=lazy(()=>import("container/TalkDetail"))
 export default class Content extends Component {
 
 
@@ -17,6 +17,7 @@ export default class Content extends Component {
                     <Switch>
 
                         <Route path="/talk" component={TalkPage}></Route>
+                        <Route path="/talkDetail/:talkId" component={TalkDetailPage}></Route>
 
                         <Route path="/tip" component={TipPage}></Route>
                         <Route path="/profile" component={ProfilePage}></Route>

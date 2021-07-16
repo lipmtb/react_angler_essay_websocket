@@ -1,0 +1,266 @@
+@import "~assets/less/bgavatar";
+@import "~assets/less/mixin";
+
+.commentLists-wrapper{
+    margin-top:0.6em;
+    padding:0.6em;
+    padding-bottom:100px;
+
+    background-color: rgba(230, 230, 230, 0.726);
+}
+
+.main-comment-item{
+    .clearfix;
+    margin:1em 0;
+    .avatar-left{
+        .left;
+    }
+    .right-main{
+        padding-top:0.4em;
+        width:80%;
+        .left;
+        .main-comment-content{
+            .comm-img-toggle{
+               width:48px;
+                position:relative;
+            
+                span.img-toggletext{
+                    font-size:0.6em;
+                    color:#666;
+                    cursor: pointer;
+                    &:hover{
+                        color:orangered;
+                    
+                    }
+                }
+                &:hover{
+                    img{
+                        display: inline-block;
+                    }
+                }
+                img{
+                    display: none;
+                    position: absolute;
+                    left:50%;
+                    transform: translate(-50%);
+                    top:1.2em;
+                    background-color: #fff;
+                    z-index: 2;
+                }
+            }
+        }
+        .comment-time-replybtn{
+            b.main-comm-time{
+                font-size:0.4em;
+                color:#ccd;
+
+            }
+            strong.main-reply-btn{
+                color:#333;
+                font-size:0.8em;
+                margin-left:100px;
+                font-weight:normal;
+                cursor: pointer;
+            }
+            div.reply-input{
+            
+                input{
+                    width:79%;
+                    outline:none;
+                    border:1px solid #ccc;
+                    border-right-width:0;
+                    padding:0.2em 0.4em;
+                    &:focus{
+                        border-color:orange;
+                    }
+
+                    &::placeholder{
+                        color:#aaa;
+                        font-size:.4em;
+                    }
+                }
+                button.reply-btn{
+                    background-color:#ffc09f;
+                    border:none;
+                    padding:0.4em 0.6em;
+                    color:#fff;
+                    font-size:0.8em;
+                    vertical-align: 1px;
+                }
+            }
+        }
+    }
+}
+
+.reply-lists{
+    .reply-item{
+        margin:0.4em 0;
+        div.avatar-init{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        span.mid-text{
+            color:#ccc;
+            font-size:0.6em;
+            margin:0 0.2em;
+        }
+        span.reply-comm-text{
+            margin-left:1em;
+        }
+       .comment-time-replybtn{
+           b.sub-comm-time{
+            font-size:0.4em;
+            color:#ccd;
+
+           }
+           strong.sub-reply-btn{
+            color:#333;
+            font-size:0.8em;
+            margin-left:200px;
+            font-weight:normal;
+            cursor: pointer;
+           }
+           div.sub-reply-input{
+               input{
+                width:79%;
+                outline:none;
+                border:1px solid #ccc;
+                border-right-width:0;
+                padding:0.2em 0.4em;
+                &:focus{
+                    border-color:orange;
+                }
+
+                &::placeholder{
+                    color:#aaa;
+                    font-size:.4em;
+                } 
+               }
+           }
+           button{
+            background-color:#ffc09f;
+            border:none;
+            padding:0.4em 0.6em;
+            color:#fff;
+            font-size:0.8em;
+            vertical-align: 1px;
+           }
+       }
+    }
+}
+
+div.comment-top-leader{
+    div.send-main-comm{
+        padding:0.2em;
+        // 主评论输入
+        input[type="text"]{
+            width:80%;
+            height:1.7em;
+            border:1px solid #eaeaea;
+            border-radius:4px 0px 0px 4px;
+            outline: none;
+            text-indent: 0.4em;
+            
+            &::placeholder{
+                font-size:0.4em;
+                color:#eee;
+
+            }
+        }
+        // 主评论发送按钮
+        button.sendmain-btn{
+            background-color: rgb(187, 245, 160);
+            border-radius:0px 4px 4px 0px;
+            border:0;
+            box-sizing: border-box;
+            padding:0.4em 0.6em;
+            height:32px;
+            cursor:pointer;
+        }
+        // 选择图片
+        div.select-img-box{
+            margin-top:0.4em;
+            label.selectimg-label{
+                display:block;
+                width:64px;
+                padding:.4em 0.6em;
+                background-color: #008c8c;
+                color:#fff;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+            // 图片预览
+            .preview-img-show{
+                padding:0.2em 0;
+                ul.tmp-select-lists{
+                    li.tmp-img-item{
+                        display: inline-block;
+                        position:relative;
+                        border:1px solid #eee;
+                        margin:0.4em;
+                        img{
+                            width:128px;
+                            height:128px;
+                        }
+                        i.iconfont{
+                            right:-6px;
+                            top:-6px;
+                            position:absolute;
+                            cursor:pointer;
+                            color:#666;
+                            &:hover{
+                                color:#111;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    // 登录按钮
+    span.login-btn{
+        cursor: pointer;
+        padding:0.2em 0.4em;
+        background-color: #aaa;
+        border-radius: 4px;
+        color:#00a;
+        font-size:0.6em;
+    }
+
+}
+
+// 更多评论
+div.more-comm-section{
+    text-align: center;
+    &:hover{
+        span.arrow-more{
+            border:2px solid rgb(136, 136, 136);
+            border-left-width:0;
+            border-top-width:0;
+        } 
+    }
+    span.show-more-comm{
+        font-size:0.4em;
+        color:rgb(245, 125, 45);
+        cursor: pointer;
+    }
+    .arrow-more{
+        display: block;
+        margin:-2px auto 4px;
+        
+        width:4px;
+        height:4px;
+        background-color: #eee;
+        border:2px solid rgb(233, 230, 230);
+        border-left-width:0;
+        border-top-width:0;
+        transform: rotate(45deg);
+
+    }
+
+    span.reachend-comm{
+        color:#666;
+        font-size:0.4em;
+    }
+}

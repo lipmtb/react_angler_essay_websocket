@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import qs from "querystring";
-
+import timeFormated from "jsutil/time"
 import serverUrl from "./server"
 let messageIns=axios.create({
     timeout:5000
@@ -19,11 +19,14 @@ messageIns.interceptors.response.use((res)=>{
                 }
             }
             if(message.messageArr.length>0){
+                message.messageArr.sort((last,next)=>{
+                    return new Date(next.createTime)-new Date(last.createTime);
+                })
                 for(let commentMessage of message.messageArr){
                     if(commentMessage.fromUserInfo.avatarUrl){
                         commentMessage.fromUserInfo.avatarUrl=serverUrl+"/images/avatar/"+commentMessage.fromUserInfo.avatarUrl;
                     }
-                    commentMessage.createTime=new Date(commentMessage.createTime).toLocaleString();
+                    commentMessage.createTime=timeFormated(commentMessage.createTime);
                 }
             }
         }
@@ -40,6 +43,15 @@ export function createCommentMessage(userId,essayId,fromUserId,fromUserName,mess
 }
 
 
+//发送消息
+export function createReplyCommentMessage(userId,essayId,fromUserId,fromUserName,messageContent,fromUserComment){
+    return messageIns.post("/proxy1/message/replyMessage",qs.stringify({
+        userId,essayId,fromUserId,fromUserName,messageContent,fromUserComment
+    }))
+}
+
+
+
 //获取用户的消息列表
 export function getUserMsgLists(userId,skip,limit){
     return messageIns.get("/proxy1/message/userMessage",{
@@ -50,3 +62,14 @@ export function getUserMsgLists(userId,skip,limit){
 }
 
 
+//获取总消息数
+export function getUserMsgTotal(userId){
+    return messageIns.get("/proxy1/message/allMsgCount/"+userId)
+}
+
+//用户展开消息读取，服务端messageCount=0
+export function userReadEssayMsg(userid,essayid,count){
+    return messageIns.post("/proxy1/message/readEssayMsg",qs.stringify({
+        userId:userid,essayId:essayid,count:count
+    }))
+}

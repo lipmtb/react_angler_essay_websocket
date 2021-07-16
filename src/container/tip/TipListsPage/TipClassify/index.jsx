@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./index.less";
-import jieliu from "../../../../util/jieliu";
+import jieliu from "jsutil/jieliu";
 export default class TipClassify extends Component {
     state = {
         isFixed: false

@@ -7,8 +7,8 @@ module.exports = override(
         ["components"]:resolve("src/components"),
         ["network"]:resolve("src/network"),
         ["assets"]:resolve("src/assets"),
-        ["container"]:resolve("src/container")
-      
+        ["container"]:resolve("src/container"),
+        ["jsutil"]:resolve("src/jsutil")
     }),
     addLessLoader({
       lessOptions: {

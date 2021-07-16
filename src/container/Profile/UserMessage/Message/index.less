@@ -3,6 +3,7 @@
     background-color:rgba(238, 238, 238, 0.5);
     padding:0.4em;
     border-radius: 10px;
+    margin:0.6em 0;
 }
 .mesage-top{
     span.prev-text{
@@ -11,6 +12,10 @@
     }
     span.essay-title{
         margin:0 0.6em;
+        cursor:pointer;
+        &:hover{
+            color:rgb(207, 187, 5);
+        }
     }
     span.message-count{
         padding:0.2em 0.6em;    
@@ -22,7 +27,7 @@
 }
 
 .toggle-btn{
-    margin:0.6em 0;
+    margin:0.2em 0;
     font-size:0.6em;
     color:#999;
     span{
@@ -30,9 +35,21 @@
     }
 }
 .comment-message-lists{
-    margin-top:0.6em;
+  
+    overflow: hidden;
+    transition:height 400ms linear;
     .comment-message-item{
-        display: flex;
+        position:relative;
+        span.bereply-comment{
+            position:absolute;
+            left:80px;
+            top:0px;
+            line-height:12px;
+        }
+        div.essay-comment{
+            display: flex;
+        }
+      
         line-height:36px;
         margin:0.6em 0;
         .comm-username{

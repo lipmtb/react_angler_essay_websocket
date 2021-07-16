@@ -41,7 +41,7 @@ class LoginModBox extends Component {
 
     componentDidMount() {
         PubSub.subscribe("tologin", () => {
-            console.log("***********打开登录框");
+            // console.log("***********打开登录框");
             this.setState({
                 isShowLoginMod: true
             })

@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
+import io from "socket.io-client";
+import serverUrl from "network/server";
 import { NavLink, withRouter } from "react-router-dom"
+import { increaseMsg } from "../../redux/actions/messageAction"
 import PubSub from 'pubsub-js';
 import "./index.less"
 const http = require("http");
 class HeaderNavCpn extends Component {
     state = {
+        websocketIo: null,
         holderText: "输入关键词搜索",
         userinfo: null,
         newCacheInfo: null,
@@ -17,18 +21,44 @@ class HeaderNavCpn extends Component {
         newWidth: 36
     }
     static getDerivedStateFromProps(newProps, newState) {
-        // console.log("getDerivedStatefromProps",newProps.userinfo,newState);
 
-        // if (newProps.userinfo && newState.userinfo) {
-        //     if (newProps.userinfo.avatarUrl !== newState.userinfo.avatarUrl) {
-        //         console.log("avatarUpdate", newProps.userinfo.avatarUrl, newState.userinfo.avatarUrl);
-
-        //     }
-        // }
+        if (!newState.userinfo && newProps.userinfo) {
+            // console.log("headerNav get derivedStateFromprops");
+            if (!newState.websocketIo) {
+                // console.log("websocketIo created");
+                newState.websocketIo = io.connect(serverUrl);
+            }
+            newState.websocketIo.on(newProps.userinfo._id + "newMsg", () => {
+                // console.log("newMsg increase");
+                newProps.increaseMsgAction(1);
+            });
+            newState.websocketIo.on(newProps.userinfo._id + "updateMsg", () => {
+                // console.log("updateMsg increase");
+                newProps.increaseMsgAction(1);
+            });
+        }
         //存当前用户
         newState.userinfo = newProps.userinfo;
-
         return newState;
+    }
+
+    componentWillUnmount() {
+        if (this.state.websocketIo) {
+
+            this.state.websocketIo.disconnect();
+        }
+    }
+
+    componentDidMount() {
+        // console.log("headerNav componentdidmounted");
+        if(!this.state.websocketIo){
+            // console.log("componentdidmounted createWebsocket");
+            this.setState({
+                websocketIo: io.connect(serverUrl)
+            })
+        }
+       
+
     }
 
     //存当前头像
@@ -38,15 +68,15 @@ class HeaderNavCpn extends Component {
         let imgsource = e.currentTarget.src;
         let newAvatar = "/proxy1" + imgsource.slice(19);
         http.get(newAvatar, (incomming) => {
-            console.log("incommingres", incomming.statusCode);
+            // console.log("incommingres", incomming.statusCode);
             let bufferAll = [];
             incomming.on("data", (chunk) => {
                 bufferAll.push(chunk);
             })
             incomming.on("end", () => {
                 let newCacheImg = Buffer.concat(bufferAll);
-                console.log("bufferByteLength", newCacheImg.byteLength);
-                let newObjUrl = document.defaultView.URL.createObjectURL(new File([newCacheImg], "cachefile", { type: 'image/png,image/jpeg,image/x-icon'}));
+                // console.log("bufferByteLength", newCacheImg.byteLength);
+                let newObjUrl = document.defaultView.URL.createObjectURL(new File([newCacheImg], "cachefile", { type: 'image/png,image/jpeg,image/x-icon' }));
                 let oldCacheInfo = this.state.newCacheInfo;
 
                 if (oldCacheInfo) {
@@ -81,7 +111,7 @@ class HeaderNavCpn extends Component {
                     that.setState({
                         oldCacheHeight: 0,
                         oldCacheWidth: 0
-                        
+
                     })
                 }, 100)
             })
@@ -104,7 +134,7 @@ class HeaderNavCpn extends Component {
     }
     //前往修改头像
     toChangeAvatarPage = () => {
-        console.log("toChangeAvatar page", this.props);
+        // console.log("toChangeAvatar page", this.props);
         this.props.history.push("/changeavatar")
     }
 
@@ -146,12 +176,12 @@ class HeaderNavCpn extends Component {
         this.setState({
             newHeight: 36,
             newWidth: 36,
-            oldCacheShow:false
+            oldCacheShow: false
         })
     }
 
     render() {
-        console.log("headerNav render", this.props);
+        // console.log("headerNav render", this.props);
         return (
             <div className="header-nav-wrapper">
                 <h1 id="app-header-title">
@@ -168,6 +198,7 @@ class HeaderNavCpn extends Component {
                     </li>
                     <li className="nav-item">
                         <NavLink to="/profile">我的</NavLink>
+                        <i className="new-message-count" style={{ display: this.props.newMsgCount > 0 ? "block" : "none" }}>{this.props.newMsgCount}</i>
                     </li>
                     {
                         this.state.userinfo && this.state.userinfo.avatarUrl ?
@@ -204,15 +235,17 @@ class HeaderNavCpn extends Component {
                     }
 
                 </div>
+                {/* 监听输入，回车键搜索 */}
+                {/* <div className="search-wrapper">
 
-                <div className="search-wrapper">
-                    {/* 监听输入，回车键搜索 */}
                     <input type="text" name="searchinput" onBlur={this.blurSearchInput} onFocus={this.focusInput} placeholder={this.state.holderText} />
                     <i className="iconfont icon-xingtaiduICON_sousuo--"></i>
-                </div>
+                </div> */}
             </div>
         )
     }
 }
 
-export default connect(state => ({ userinfo: state.userReducer.userinfo }))(withRouter(HeaderNavCpn));
+export default connect(state => ({ userinfo: state.userReducer.userinfo, newMsgCount: state.messageReducer }), {
+    increaseMsgAction: increaseMsg
+})(withRouter(HeaderNavCpn));
